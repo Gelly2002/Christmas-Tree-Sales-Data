@@ -1,0 +1,46 @@
+1. Total revenue by tree type (shows real vs fake tree revenue)
+SELECT 
+    Year,
+    `Type of tree`,
+    SUM(Sales) AS total_revenue
+FROM `us Christmas tree sales - 2010-2016`
+GROUP BY Year, `Type of tree`
+ORDER BY Year;
+
+2. Total units sold by tree type (shows which tree type is sold more)
+SELECT 
+    Year,
+    `Type of tree`,
+    SUM(`Number of trees sold`) AS total_units_sold
+FROM `us Christmas tree sales - 2010-2016`
+GROUP BY Year, `Type of tree`
+ORDER BY Year;
+
+3. Averate tree price by year (tracks pricing trends over time)
+SELECT 
+    Year,
+    `Type of tree`,
+    AVG(`Average Tree Price`) AS avg_price
+FROM `us Christmas tree sales - 2010-2016`
+GROUP BY Year, `Type of tree`
+ORDER BY Year;
+
+4. Price vs numbers sold (analysis of the correlation between volume and price)
+SELECT 
+    Year,
+    `Type of tree`,
+    `Average Tree Price` AS avg_price,
+    `Number of trees sold` AS num_trees
+FROM `us Christmas tree sales - 2010-2016`
+ORDER BY Year;
+
+5. Market Share by trees sold (Compares market share by volume instead of revenue)
+SELECT 
+    Year,
+    `Type of tree`,
+    SUM(`Number of trees sold`) / (SELECT SUM(`Number of trees sold`) 
+                                   FROM `us Christmas tree sales - 2010-2016` ct2 
+                                   WHERE ct2.Year = `us Christmas tree sales - 2010-2016`.Year) * 100 AS market_share_units_pct
+FROM `us Christmas tree sales - 2010-2016`
+GROUP BY Year, `Type of tree`
+ORDER BY Year;
